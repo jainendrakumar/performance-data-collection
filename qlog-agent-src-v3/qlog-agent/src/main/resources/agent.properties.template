@@ -1,0 +1,60 @@
+# QLog Agent Configuration (agent.properties)
+# Place this file in the same directory as the agent JAR file, or specify its path via command line argument.
+
+# --- Agent Identification & Context ---
+# A unique identifier for this agent instance (e.g., hostname)
+agent.id=Agent_HostName_01
+
+# Environment context for logs sent by this agent (e.g., Production_EU, Test_US, Dev_Local)
+# This value will be associated with the logs on the server.
+environment.context=DefaultContext
+
+# --- Log Monitoring ---
+# The directory containing the Quintiq QServerTrans_*.csv log files.
+# Use forward slashes (/) even on Windows, or escape backslashes (\\).
+monitor.directory=C:/Path/To/Quintiq/Logs
+
+# The file pattern to match log files.
+monitor.filePattern=QServerTrans_*.csv
+
+# How often (in seconds) the agent checks the directory for new log entries.
+poll.interval.seconds=10
+
+# --- Server Connection ---
+# The full URL of the QLog Server's submission endpoint.
+server.url=http://localhost:8080/api/agent/submit-logs
+
+# The username for HTTP Basic Authentication on the server.
+server.username=agent_user
+
+# The password for HTTP Basic Authentication on the server.
+server.password=YourStrongAgentPassword
+
+# --- Batching and State ---
+# The maximum number of log lines to send in a single batch.
+# Increase for higher throughput, decrease if hitting request size limits or causing server load spikes.
+batch.size=500
+
+# The file path where the agent stores its state (last read position per log file).
+# Defaults to the current directory if not specified.
+state.filePath=./agent-state.json
+
+# --- Communication Optimization ---
+# Enable Gzip compression for sending log batches to the server (true/false).
+# Recommended for large log volumes to reduce network traffic.
+communication.compression.enabled=true
+
+# --- HTTP Client Settings ---
+# Maximum time (in seconds) to wait for establishing a connection to the server.
+http.connect.timeout.seconds=15
+
+# Maximum time (in seconds) to wait for the server to respond to a request.
+http.request.timeout.seconds=60
+
+# --- Retry Mechanism ---
+# Maximum number of times to retry sending a batch if a retryable error occurs (e.g., 5xx server error, timeout).
+retry.max.attempts=3
+
+# Initial delay (in milliseconds) before the first retry. Subsequent retries use exponential backoff (delay doubles).
+retry.initial.delay.millis=2000
+
